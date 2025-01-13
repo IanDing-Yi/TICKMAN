@@ -1,2 +1,2 @@
 # TICKMAN
-TICK and Market Analysis Narrative for quality insights
+**TICK** and **M**arket **A**nalysis **N**arrative for Quality Insights
