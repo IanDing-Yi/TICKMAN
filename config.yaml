@@ -1,0 +1,26 @@
+off_otq_root: 'off_exchange_otq/'
+on_otq_root: 'on_exchange_otq/'
+
+off_verify_otq_root: 'off_exchange_otq_verify/'
+on_verify_otq_root: 'on_exchange_otq_verify/'
+
+off_header_root: 'O:/180901_211231_TRD_OFF_HEADER/'
+on_header_root: 'O:/180901_211231_TRD_ON_HEADER/'
+
+off_verify_root: 'O:/180901_211231_TRD_OFF_verify_count/'
+on_verify_root: 'O:/180901_211231_TRD_ON_verify_count/'
+
+off_download_root: 'O:/180901_211231_TRD_OFF/'
+on_download_root: 'O:/180901_211231_TRD_ON/'
+
+compute_root: 'O:/180901_211231_TRD_compute/'
+
+complete_root: 'O:/180901_211231_TRD_complete/'
+
+randomState: 1
+nb_compute_workers: 14
+nb_otq_workers: 10
+
+# symbol list MUST sorted alphabetically
+off_symbol_list: 'off_symbols.csv'
+on_symbol_list: 'on_symbols.csv'

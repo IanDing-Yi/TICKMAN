@@ -1,0 +1,27 @@
+
+[Graph_1]
+COMMENT = 
+CPU_NUMBER = 6
+DB_HINT_FOR_PROCESSING_HOST = 
+graph_reuse = 0
+one_to_many_symbol_mapping = 0
+QUERY_BATCH_SIZE = 2
+ROOT = PASSTHROUGH
+ROOT_EP_PARAMETERS_FLAG = -2
+ROOT_TICK_TYPE = TRD
+ROOT_X = 1442
+ROOT_Y = 466
+SECURITY = {DB:SYMBOL} 0
+SHOW_TEMPLATE = 
+TYPE = GRAPH
+
+[_meta]
+app_version = OneTick Display Build tag: BUILD_20180313222322 Build timestamp : 20180313222322
+ApplyTimesDaily = 0
+end = 20211231160000000
+file_version = 1.0
+RunningQuery = 0
+start = 20180901093000000
+SYMBOL_DATE = 
+TZ = EST5EDT
+USER_NAME = yuhan
