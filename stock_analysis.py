@@ -28,9 +28,6 @@ class StockAnalysis:
         self.onExcDF_stockDict = self.loadTradeData(onExcDF_stockDict_path)
         self.offExcDF_stockDict = self.loadTradeData(offExcDF_stockDict_path)
         
-        self.onExcDF_stockDict, self.offExcDF_stockDict = self.filtering(self.onExcDF_stockDict, 
-                                                                         self.offExcDF_stockDict)
-        
         self.timeInt = pd.to_datetime(['09:30:00',
                                        '10:00:00',
                                        '10:30:00',
@@ -46,8 +43,6 @@ class StockAnalysis:
                                        '15:30:00',
                                        '16:00:00'],
                                        format='%H:%M:%S').time
-        
-        self.maxDate, self.minDate = self.max_min_dates(self.onExcDF_stockDict, self.offExcDF_stockDict)
         
         # pre-count numbers
         self.nb_off_retail = 816180153
@@ -245,6 +240,15 @@ class StockAnalysis:
         #test
 #         print(0)
 #         print("elapsed: ", time.time()-t0, "sec")
+
+        self.onExcDF_stockDict, self.offExcDF_stockDict = self.filtering(self.onExcDF_stockDict, 
+                                                                         self.offExcDF_stockDict)
+        
+        if (len(self.onExcDF_stockDict) < 1) or (len(self.offExcDF_stockDict) < 1):
+            return 3
+        
+        self.maxDate, self.minDate = self.max_min_dates(self.onExcDF_stockDict, self.offExcDF_stockDict)
+
         def index_on_off_retail_not_same_time_30min(datetimeMap_30min_stock):
             dayBegin = datetimeMap_30min_stock[0]
             dayEnd = datetimeMap_30min_stock[1]
