@@ -321,6 +321,10 @@ def run_stock_analysis_warp(on_off_symbol):
             example = OtqQueryExample(on_download_root)
             example.otqExample(options)
         
+        exist_on = True
+        if not os.path.exists(os.path.join(on_download_root, on_symbol+'.csv')):
+            exist_on = False
+        
         if os.path.exists(os.path.join(on_verify_root, on_symbol+'.csv')):
             os.remove(os.path.join(on_verify_root, on_symbol+'.csv'))
         optstrs = sys.argv+['-otq_file', os.path.join(on_verify_otq_root, on_symbol+'.otq'), '-timezone', 'EST5EDT']
@@ -329,12 +333,18 @@ def run_stock_analysis_warp(on_off_symbol):
         example.otqExample(options)
         
         on_downloadLineCount = 0
-        with open(os.path.join(on_download_root, on_symbol+'.csv'), 'rb') as dataf:
-            on_downloadLineCount = sum(1 for line in dataf)
+        if exist_on:
+            with open(os.path.join(on_download_root, on_symbol+'.csv'), 'rb') as dataf:
+                on_downloadLineCount = sum(1 for line in dataf)
 
         on_verifyCount = 0
         with open(os.path.join(on_verify_root, on_symbol+'.csv'), 'r') as countf:
             on_verifyCount = float(countf.read().strip().split(',')[-1])
+        
+        if (not exist_on) and (on_verifyCount == 0):
+            with open(os.path.join(complete_root, off_symbol), 'w+') as f:
+                f.write('4')
+            return 4
         
         if not os.path.exists(os.path.join(off_download_root, off_symbol+'.csv')):
             optstrs = sys.argv+['-otq_file', os.path.join(off_otq_root, off_symbol+'.otq'), '-timezone', 'EST5EDT']
@@ -342,6 +352,10 @@ def run_stock_analysis_warp(on_off_symbol):
             example = OtqQueryExample(off_download_root)
             example.otqExample(options)
 
+        exist_off = True
+        if not os.path.exists(os.path.join(off_download_root, off_symbol+'.csv')):
+            exist_off = False
+        
         if os.path.exists(os.path.join(off_verify_root, off_symbol+'.csv')):
             os.remove(os.path.join(off_verify_root, off_symbol+'.csv'))
         optstrs = sys.argv+['-otq_file', os.path.join(off_verify_otq_root, off_symbol+'.otq'), '-timezone', 'EST5EDT']
@@ -350,12 +364,18 @@ def run_stock_analysis_warp(on_off_symbol):
         example.otqExample(options)
 
         off_downloadLineCount = 0
-        with open(os.path.join(off_download_root, off_symbol+'.csv'), 'rb') as dataf:
-            off_downloadLineCount = sum(1 for line in dataf)
+        if exist_off:
+            with open(os.path.join(off_download_root, off_symbol+'.csv'), 'rb') as dataf:
+                off_downloadLineCount = sum(1 for line in dataf)
 
         off_verifyCount = 0
         with open(os.path.join(off_verify_root, off_symbol+'.csv'), 'r') as countf:
             off_verifyCount = float(countf.read().strip().split(',')[-1])
+            
+        if (not exist_off) and (off_verifyCount == 0):
+            with open(os.path.join(complete_root, off_symbol), 'w+') as f:
+                f.write('5')
+            return 5
             
         if ( (on_downloadLineCount == on_verifyCount) and (off_downloadLineCount == off_verifyCount) ):
             success = True
@@ -378,12 +398,23 @@ def run_stock_analysis_warp(on_off_symbol):
     
     exitCode = sa.Compute(compute_root)
     
-    if exitCode == 0:
-        with open(os.path.join(complete_root, off_symbol), 'w+') as f:
-            f.write('0')
+    if os.path.exists(os.path.join(on_header_root,on_symbol+'.csv')) and os.path.exists(os.path.join(off_header_root,off_symbol+'.csv')):
+        if exitCode == 0:
+            with open(os.path.join(complete_root, off_symbol), 'w+') as f:
+                f.write('0')
+            return 0
+        elif exitCode == 3:
+            with open(os.path.join(complete_root, off_symbol), 'w+') as f:
+                f.write('3')
+            return 3
+        else:
+            with open(os.path.join(complete_root, off_symbol), 'w+') as f:
+                f.write('2')
+            return 2
     else:
         with open(os.path.join(complete_root, off_symbol), 'w+') as f:
             f.write('1')
+        return 1
 
 on_head = ""
 on_list = []
